@@ -1,0 +1,11 @@
+h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 2rem;
+  color: #26231e;
+  margin: 0 0 1rem;
+}
+
+.lead {
+  font-family: 'Spectral', serif;
+  color: #26231e;
+}
