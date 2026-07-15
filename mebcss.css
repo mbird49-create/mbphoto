@@ -9,3 +9,35 @@ h1 {
   font-family: 'Spectral', serif;
   color: #26231e;
 }
+
+.site-logo-badge {
+  width: 66px;
+  height: 66px;
+  background: #a8683f;
+  font-family: 'Fraunces', serif;
+  font-size: 29px;
+  letter-spacing: -0.02em;
+  color: #f7f4ee;
+}
+
+.site-logo-name {
+  font-family: 'Spectral', serif;
+  font-size: 25px;
+  color: #26231e;
+  line-height: 1;
+}
+
+.site-logo-subtitle {
+  font-family: 'Jost', sans-serif;
+  font-size: 9.5px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: #7a746a;
+  padding-left: 0.38em;
+}
+
+.nav-link.active {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
