@@ -31,7 +31,9 @@
 
     const navLinks = navItems
         .map((item) => {
-            const isActive = item.href.toLowerCase() === currentFile;
+            const isHomeItem = item.href.toLowerCase() === "index.html";
+            const isHomeRoute = currentFile === "mebindex.html" || currentFile === "index.html" || currentFile === "";
+            const isActive = isHomeItem ? isHomeRoute : item.href.toLowerCase() === currentFile;
             const activeClass = isActive ? " active" : "";
             const ariaCurrent = isActive ? ' aria-current="page"' : "";
 
