@@ -7,11 +7,11 @@
     };
 
     const navItems = [
-        { href: "index.html", label: "Home" },
-        { href: "mebobservations.html", label: "Observations" },
-        { href: "mebportfolio.html", label: "Portfolio" },
-        { href: "mebabout.html", label: "About" },
-        { href: "mebcontact.html", label: "Contact" }
+        { href: "/index.html", label: "Home" },
+        { href: "/mebobservations.html", label: "Observations" },
+        { href: "/mebportfolio.html", label: "Portfolio" },
+        { href: "/mebabout.html", label: "About" },
+        { href: "/mebcontact.html", label: "Contact" }
     ];
 
     const headerSlot = document.getElementById("site-header");
@@ -27,12 +27,13 @@
         document.title = pageLabel + " | " + siteConfig.siteTitle;
     }
 
-    const currentFile = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
+    const rawPath = window.location.pathname.toLowerCase();
+    const isHomeRoute = rawPath === "/" || rawPath === "" || rawPath === "/index.html" || rawPath === "/mebindex.html";
+    const currentFile = ("/" + (rawPath.split("/").pop() || "index.html")).toLowerCase();
 
     const navLinks = navItems
         .map((item) => {
-            const isHomeItem = item.href.toLowerCase() === "index.html";
-            const isHomeRoute = currentFile === "mebindex.html" || currentFile === "index.html" || currentFile === "";
+            const isHomeItem = item.href.toLowerCase() === "/index.html";
             const isActive = isHomeItem ? isHomeRoute : item.href.toLowerCase() === currentFile;
             const activeClass = isActive ? " active" : "";
             const ariaCurrent = isActive ? ' aria-current="page"' : "";
@@ -43,7 +44,7 @@
 
     headerSlot.innerHTML =
         '<header class="container py-4">' +
-        '<a href="index.html" class="d-inline-flex align-items-center gap-3 text-decoration-none">' +
+        '<a href="/index.html" class="d-inline-flex align-items-center gap-3 text-decoration-none">' +
         '<span class="d-flex align-items-center justify-content-center site-logo-badge">MB</span>' +
         '<span class="d-flex flex-column gap-1">' +
         '<span class="site-logo-name">' + siteConfig.brandName + '</span>' +
