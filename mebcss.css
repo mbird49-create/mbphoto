@@ -59,3 +59,22 @@ h1 {
   transform: scale(1.04);
 }
 
+.gallery-caption {
+  margin: 0.45rem 0 0;
+  display: inline-block;
+  padding: 0.14rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(247, 244, 238, 0.9);
+  font-family: 'Jost', sans-serif;
+  font-size: clamp(0.9rem, 2.6vw, 1rem);
+  font-weight: 500;
+  line-height: 1.35;
+  color: #5c5448;
+}
+
+@media (max-width: 576px) {
+  .gallery-caption {
+    background: rgba(247, 244, 238, 0.96);
+  }
+}
+
