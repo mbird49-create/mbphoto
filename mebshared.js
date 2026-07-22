@@ -67,3 +67,85 @@
         '<p class="mb-0 text-muted">&copy; ' + siteConfig.footerYear + ' ' + siteConfig.siteTitle + '</p>' +
         '</footer>';
 })();
+
+(function () {
+    const thumbs = Array.from(document.querySelectorAll("a.gallery-thumb"));
+    if (!thumbs.length) {
+        return;
+    }
+
+    const items = thumbs.map((thumb) => {
+        const img = thumb.querySelector("img");
+        return { href: thumb.getAttribute("href"), alt: img ? img.getAttribute("alt") || "" : "" };
+    });
+
+    const lightbox = document.createElement("div");
+    lightbox.className = "meb-lightbox";
+    lightbox.setAttribute("aria-hidden", "true");
+    lightbox.innerHTML =
+        '<button type="button" class="meb-lightbox-close" aria-label="Close">&times;</button>' +
+        '<button type="button" class="meb-lightbox-prev" aria-label="Previous image">&larr;</button>' +
+        '<img class="meb-lightbox-img" src="" alt="">' +
+        '<button type="button" class="meb-lightbox-next" aria-label="Next image">&rarr;</button>';
+    document.body.appendChild(lightbox);
+
+    const imgEl = lightbox.querySelector(".meb-lightbox-img");
+    const closeBtn = lightbox.querySelector(".meb-lightbox-close");
+    const prevBtn = lightbox.querySelector(".meb-lightbox-prev");
+    const nextBtn = lightbox.querySelector(".meb-lightbox-next");
+
+    let currentIndex = 0;
+
+    function show(index) {
+        currentIndex = (index + items.length) % items.length;
+        const item = items[currentIndex];
+        imgEl.src = item.href;
+        imgEl.alt = item.alt;
+    }
+
+    function open(index) {
+        show(index);
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.classList.add("meb-lightbox-active");
+    }
+
+    function close() {
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("meb-lightbox-active");
+        imgEl.src = "";
+    }
+
+    thumbs.forEach((thumb, index) => {
+        thumb.removeAttribute("target");
+        thumb.removeAttribute("rel");
+        thumb.addEventListener("click", (event) => {
+            event.preventDefault();
+            open(index);
+        });
+    });
+
+    closeBtn.addEventListener("click", close);
+    prevBtn.addEventListener("click", () => show(currentIndex - 1));
+    nextBtn.addEventListener("click", () => show(currentIndex + 1));
+
+    lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) {
+            close();
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (!lightbox.classList.contains("is-open")) {
+            return;
+        }
+        if (event.key === "Escape") {
+            close();
+        } else if (event.key === "ArrowLeft") {
+            show(currentIndex - 1);
+        } else if (event.key === "ArrowRight") {
+            show(currentIndex + 1);
+        }
+    });
+})();
