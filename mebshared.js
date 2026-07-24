@@ -149,3 +149,28 @@
         }
     });
 })();
+
+(function () {
+    const form = document.getElementById("contact-form");
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(new FormData(form)).toString()
+        })
+            .then(() => {
+                form.reset();
+                form.classList.add("d-none");
+                document.getElementById("contact-form-success").classList.remove("d-none");
+            })
+            .catch(() => {
+                form.submit();
+            });
+    });
+})();

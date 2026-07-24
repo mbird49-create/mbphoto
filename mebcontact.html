@@ -25,9 +25,31 @@
             Got a question about a print, a licensing request, or just want to
             talk bugs and light? Reach out — I read every message.
         </p>
-        <p>
-            Email: <a href="mailto:mbird49@gmail.com">mbird49@gmail.com</a>
-        </p>
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="contact-form"
+            class="mt-4">
+            <input type="hidden" name="form-name" value="contact">
+            <p class="d-none">
+                <label>Don't fill this out if you're human: <input name="bot-field"></label>
+            </p>
+            <div class="mb-3">
+                <label for="contact-name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="contact-name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="contact-email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="contact-email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="contact-phone" class="form-label">Phone</label>
+                <input type="tel" class="form-control" id="contact-phone" name="phone">
+            </div>
+            <div class="mb-3">
+                <label for="contact-message" class="form-label">Message</label>
+                <textarea class="form-control" id="contact-message" name="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-dark">Send</button>
+        </form>
+        <p class="mt-3 mb-0 d-none" id="contact-form-success">Thanks — I'll get back to you soon.</p>
 
     </main>
 
