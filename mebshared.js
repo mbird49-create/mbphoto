@@ -8,8 +8,8 @@
 
     const navItems = [
         { href: "/index.html", label: "Home" },
-        { href: "/mebobservations.html", label: "Observations" },
         { href: "/mebportfolio.html", label: "Portfolio" },
+        { href: "/blog.html", label: "Observations" },
         { href: "/mebabout.html", label: "About" },
         { href: "/mebcontact.html", label: "Contact" }
     ];
@@ -31,10 +31,17 @@
     const isHomeRoute = rawPath === "/" || rawPath === "" || rawPath === "/index.html" || rawPath === "/mebindex.html";
     const currentFile = ("/" + (rawPath.split("/").pop() || "index.html")).toLowerCase();
 
+    const isBlogRoute = rawPath === "/blog.html" || rawPath.indexOf("/blog/") === 0;
+
     const navLinks = navItems
         .map((item) => {
             const isHomeItem = item.href.toLowerCase() === "/index.html";
-            const isActive = isHomeItem ? isHomeRoute : item.href.toLowerCase() === currentFile;
+            const isBlogItem = item.href.toLowerCase() === "/blog.html";
+            const isActive = isHomeItem
+                ? isHomeRoute
+                : isBlogItem
+                ? isBlogRoute
+                : item.href.toLowerCase() === currentFile;
             const activeClass = isActive ? " active" : "";
             const ariaCurrent = isActive ? ' aria-current="page"' : "";
 
