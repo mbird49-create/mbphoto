@@ -41,6 +41,12 @@ h1 {
   text-underline-offset: 0.2em;
 }
 
+#myCarousel .carousel-item img {
+  width: 100%;
+  aspect-ratio: 1200 / 733;
+  object-fit: cover;
+}
+
 .gallery-thumb {
   display: block;
   aspect-ratio: 1 / 1;
