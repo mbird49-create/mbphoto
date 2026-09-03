@@ -79,7 +79,6 @@
 (function () {
     const consentCookie = "mbphoto_cookie_consent";
     const consentMaxAge = 60 * 60 * 24 * 180;
-    const consentScripts = Array.from(document.querySelectorAll("script[data-cookie-category]"));
 
     function getConsent() {
         const match = document.cookie.match(new RegExp("(^|; )" + consentCookie + "=([^;]*)"));
@@ -92,7 +91,7 @@
     }
 
     function loadConsentScripts() {
-        consentScripts.forEach((script) => {
+        document.querySelectorAll("script[data-cookie-category]").forEach((script) => {
             const replacement = document.createElement("script");
             Array.from(script.attributes).forEach((attribute) => {
                 if (attribute.name !== "type" && attribute.name !== "data-cookie-category") {
@@ -139,15 +138,25 @@
         closeBanner();
     }
 
-    if (getConsent() === "accepted") {
-        loadConsentScripts();
-    } else if (getConsent() !== "rejected") {
-        showBanner();
+    function init() {
+        if (getConsent() === "accepted") {
+            loadConsentScripts();
+        } else if (getConsent() !== "rejected") {
+            showBanner();
+        }
+
+        const settingsLink = document.querySelector(".cookie-settings-link");
+        if (settingsLink) {
+            settingsLink.addEventListener("click", showBanner);
+        }
     }
 
-    const settingsLink = document.querySelector(".cookie-settings-link");
-    if (settingsLink) {
-        settingsLink.addEventListener("click", showBanner);
+    // Defer until the full document is parsed so consent-gated <script> tags
+    // further down the page (e.g. the Fotomoto widget in <body>) are seen.
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+    } else {
+        init();
     }
 })();
 
