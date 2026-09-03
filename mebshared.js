@@ -71,8 +71,93 @@
 
     footerSlot.innerHTML =
         '<footer class="container py-4">' +
-        '<p class="mb-0 text-muted">&copy; ' + siteConfig.footerYear + ' ' + siteConfig.siteTitle + '</p>' +
+        '<p class="mb-0 text-muted">&copy; ' + siteConfig.footerYear + ' ' + siteConfig.siteTitle +
+        ' · <button type="button" class="cookie-settings-link">Cookie settings</button></p>' +
         '</footer>';
+})();
+
+(function () {
+    const consentCookie = "mbphoto_cookie_consent";
+    const consentMaxAge = 60 * 60 * 24 * 180;
+
+    function getConsent() {
+        const match = document.cookie.match(new RegExp("(^|; )" + consentCookie + "=([^;]*)"));
+        return match ? decodeURIComponent(match[2]) : "";
+    }
+
+    function setConsent(value) {
+        document.cookie = consentCookie + "=" + encodeURIComponent(value) +
+            "; max-age=" + consentMaxAge + "; path=/; SameSite=Lax";
+    }
+
+    function loadConsentScripts() {
+        document.querySelectorAll("script[data-cookie-category]").forEach((script) => {
+            const replacement = document.createElement("script");
+            Array.from(script.attributes).forEach((attribute) => {
+                if (attribute.name !== "type" && attribute.name !== "data-cookie-category") {
+                    replacement.setAttribute(attribute.name, attribute.value);
+                }
+            });
+            replacement.async = script.async;
+            replacement.textContent = script.textContent;
+            script.replaceWith(replacement);
+        });
+    }
+
+    function closeBanner() {
+        const banner = document.querySelector(".cookie-consent");
+        if (banner) {
+            banner.remove();
+        }
+    }
+
+    function showBanner() {
+        closeBanner();
+        const banner = document.createElement("aside");
+        banner.className = "cookie-consent";
+        banner.setAttribute("aria-label", "Cookie notice");
+        banner.innerHTML =
+            '<div class="cookie-consent-content">' +
+            '<p class="mb-2"><strong>Cookies and privacy</strong></p>' +
+            '<p class="mb-3">This site uses optional cookies and third-party services for visitor statistics and photo sales. Choose whether to allow them.</p>' +
+            '<div class="cookie-consent-actions">' +
+            '<button type="button" class="btn btn-sm btn-outline-dark cookie-consent-reject">Reject optional cookies</button>' +
+            '<button type="button" class="btn btn-sm btn-dark cookie-consent-accept">Accept optional cookies</button>' +
+            '</div>' +
+            '</div>';
+        document.body.appendChild(banner);
+        banner.querySelector(".cookie-consent-reject").addEventListener("click", () => chooseConsent("rejected"));
+        banner.querySelector(".cookie-consent-accept").addEventListener("click", () => chooseConsent("accepted"));
+    }
+
+    function chooseConsent(value) {
+        setConsent(value);
+        if (value === "accepted") {
+            loadConsentScripts();
+        }
+        closeBanner();
+    }
+
+    function init() {
+        if (getConsent() === "accepted") {
+            loadConsentScripts();
+        } else if (getConsent() !== "rejected") {
+            showBanner();
+        }
+
+        const settingsLink = document.querySelector(".cookie-settings-link");
+        if (settingsLink) {
+            settingsLink.addEventListener("click", showBanner);
+        }
+    }
+
+    // Defer until the full document is parsed so consent-gated <script> tags
+    // further down the page (e.g. the Fotomoto widget in <body>) are seen.
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+    } else {
+        init();
+    }
 })();
 
 (function () {
