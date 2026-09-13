@@ -119,7 +119,7 @@
         banner.innerHTML =
             '<div class="cookie-consent-content">' +
             '<p class="mb-2"><strong>Cookies and privacy</strong></p>' +
-            '<p class="mb-3">This site uses optional cookies and third-party services for visitor statistics and photo sales. Choose whether to allow them.</p>' +
+            '<p class="mb-3">This site uses an optional third-party service (Fotomoto) to sell prints, which may set its own cookies. Choose whether to allow it.</p>' +
             '<div class="cookie-consent-actions">' +
             '<button type="button" class="btn btn-sm btn-outline-dark cookie-consent-reject">Reject optional cookies</button>' +
             '<button type="button" class="btn btn-sm btn-dark cookie-consent-accept">Accept optional cookies</button>' +
