@@ -3,3 +3,7 @@
 /portfolio/*  /mebportfolio.html  200
 /bugs  /petit-monde/  301
 /bugs/*  /petit-monde/:splat  301
+/ME  /altered-exposures/  301
+/ME/*  /altered-exposures/:splat  301
+/abstract2  /altered-states/  301
+/abstract2/*  /altered-states/:splat  301
