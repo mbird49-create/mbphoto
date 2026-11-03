@@ -72,7 +72,7 @@
     footerSlot.innerHTML =
         '<footer class="container py-4">' +
         '<p class="mb-0 text-muted">&copy; ' + siteConfig.footerYear + ' ' + siteConfig.siteTitle +
-        ' · <button type="button" class="cookie-settings-link">Cookie settings</button></p>' +
+        '<span class="cookie-settings"> · <button type="button" class="cookie-settings-link">Cookie settings</button></span></p>' +
         '</footer>';
 })();
 
@@ -119,7 +119,7 @@
         banner.innerHTML =
             '<div class="cookie-consent-content">' +
             '<p class="mb-2"><strong>Cookies and privacy</strong></p>' +
-            '<p class="mb-3">This site uses an optional third-party service (Fotomoto) to sell prints, which may set its own cookies. Choose whether to allow it.</p>' +
+            '<p class="mb-3">This site uses an optional third-party print store, which may set its own cookies. Choose whether to allow it.</p>' +
             '<div class="cookie-consent-actions">' +
             '<button type="button" class="btn btn-sm btn-outline-dark cookie-consent-reject">Reject optional cookies</button>' +
             '<button type="button" class="btn btn-sm btn-dark cookie-consent-accept">Accept optional cookies</button>' +
@@ -139,6 +139,15 @@
     }
 
     function init() {
+        // Only pages with consent-gated scripts need the banner or the settings link.
+        if (!document.querySelector("script[data-cookie-category]")) {
+            const settings = document.querySelector(".cookie-settings");
+            if (settings) {
+                settings.remove();
+            }
+            return;
+        }
+
         if (getConsent() === "accepted") {
             loadConsentScripts();
         } else if (getConsent() !== "rejected") {
@@ -152,7 +161,7 @@
     }
 
     // Defer until the full document is parsed so consent-gated <script> tags
-    // further down the page (e.g. the Fotomoto widget in <body>) are seen.
+    // further down the page (e.g. a print-store widget in <body>) are seen.
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", init);
     } else {
